@@ -2,21 +2,21 @@
 
 angular.module('workspaceApp')
   .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
+    // Get user from session
+    $http.get('/api/sessions/user')
+      .then(function successCallback(userInfo) {
+          $scope.userId = userInfo.data._id;
+        }, function errorCallback(response) {
+          $scope.userId = 'Something went wrong, try again.';
+    }).catch( function() {
+      $scope.userId = '';
     });
 
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
+    // Redirect to the provided path, used to redirect to /auth/twitter path
+    $scope.go = function ( path ) {
+      if(!path) return;
+      window.location.href = path;
     };
 
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
-    };
   });

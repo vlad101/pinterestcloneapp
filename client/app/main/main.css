@@ -32,3 +32,8 @@
 .navbar-text {
     margin-left: 15px;
 }
+
+.navbar-button {
+    cursor: pointer;
+    cursor: hand;
+}

@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/" class="navbar-brand">workspace</a>
+      <a href="/" class="navbar-brand">Ballroom World</a>
     </div>
     <div collapse="isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
@@ -15,6 +15,27 @@
             <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
       </ul>
+
+       <ul class="nav navbar-nav navbar-right">
+       <!-- If user is not logged in, display login with twitter button -->
+        <li ng-show="!userName" >
+          <a ng-click="go('/auth/twitter/')">
+            <img class="navbar-button" src="assets/images/twitter-login.gif" alt="Twitter Login">
+          </a>
+        </li>
+
+        <!-- If user is logged in, display user twitter name -->
+        <li ng-show="userName">
+          <p class="navbar-text">Welcome {{ userName }}</p>
+        </li>
+
+        <!-- If user is logged in, display logout button -->
+        <li ng-show="userName">
+          <a ng-click="go('/auth/twitter/logout')">
+            <img class="navbar-button" src="assets/images/twitter-logout.png" alt="Twitter Logout">
+          </a>
+        </li>
+      </ul>     
     </div>
   </div>
 </div>

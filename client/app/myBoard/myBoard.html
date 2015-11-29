@@ -1,3 +1,14 @@
-<div class="col-md-12">
-This is the myBoard view.
+<div ng-include="'components/main/header.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="page-header"><h1>My Board</h1></div>
+    <div class="col-lg-12">
+      <br>
+      <!-- If user is logged in, display user's name -->
+      <div ng-show="userId">User ID: {{ userId }}</div>
+    </div>
+  </div>
 </div>
+
+<div ng-include="'components/main/footer.html'"></div>

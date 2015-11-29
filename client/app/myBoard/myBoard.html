@@ -1,12 +1,27 @@
 <div ng-include="'components/main/header.html'"></div>
 
-<div class="container">
+<!-- Authenticated user view -->
+<div class="container" ng-show="userId">
   <div class="row">
     <div class="page-header"><h1>My Board</h1></div>
     <div class="col-lg-12">
       <br>
       <!-- If user is logged in, display user's name -->
       <div ng-show="userId">User ID: {{ userId }}</div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+  INSERT MODAL HERE
+  </div>
+</div>
+
+<!-- Unauthenticated user view -->
+<div class="container" ng-show="!userId">
+  <div class="row">
+    <div class="col-lg-12">
+      <br>
+      <div><h3>Must login to view content.</h3></div>
     </div>
   </div>
 </div>

@@ -2,9 +2,6 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-var mongooseTypes = require("mongoose-types");
-mongooseTypes.loadTypes(mongoose, "url");
-var Url = mongoose.SchemaTypes.Url;
 
 var PinSchema = new Schema({
   userId: { type: Schema.Types.ObjectId},
@@ -13,8 +10,7 @@ var PinSchema = new Schema({
             required: true
   },
   source: {
-            type: Url,
-            required: true
+            type: String
   },
   likes: {
             type: Number,

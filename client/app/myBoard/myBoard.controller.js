@@ -3,69 +3,112 @@
 angular.module('workspaceApp')
   .controller('MyBoardCtrl', function ($scope, $http) {
 
-  	// Create Pin Modal
-  	$scope.showModal = false;
-    $scope.toggleModal = function(){
-        $scope.showModal = !$scope.showModal;
-    };
-
     // Get user from session
     $http.get('/api/sessions/user')
       .then(function successCallback(userInfo) {
+        // Get user id
           $scope.userId = userInfo.data._id;
+          // Get all user pins by user id
+          if($scope.userId) {
+            $http.get('/api/pins/user/' + $scope.userId)
+              .then(function successCallback(pinList) {
+                  $scope.pinList = pinList.data;
+                }, function errorCallback(pinList) {
+                  $scope.pinListMessage = 'Something went wrong, try again.';
+            }).catch( function() {
+              $scope.pinListMessage = '';
+            });
+          }
         }, function errorCallback(response) {
           $scope.userId = 'Something went wrong, try again.';
     }).catch( function() {
       $scope.userId = '';
     });
 
+    // Load pin list with Masonryjs
+    // Pure JS
+    (function () {
+      var container = document.querySelector('#pin-list');
+      var msnry = new Masonry(container, {
+        gutter: 20,
+        columnWidth: 200,
+        sortAscending : true,
+        itemSelector: '.pin'
+      });
+    });
+
     // Add pin
 	
-	// Form add choice
+	// Add pin form initialization
 	$scope.addPinForm = {
 	    title: "",
 	    source: ""
 	};
-    $scope.$watch('addPinForm.source', function() {
-        $scope.preview = $scope.addPinForm.source;
-    }, true);
 
+  // Event listener for image source field
+  $scope.$watch('addPinForm.source', function() {
+
+      // Get image source from the source
+      $scope.preview = $scope.addPinForm.source;
+      
+      // If image is invalid, replace it with the broken image icon
+      $("#preview").error(function () {
+         $(this).unbind("error")
+         .attr("src", "assets/images/broken-image.jpg")
+         .css( "min-width", "100%" );
+      });
+  }, true);
+
+  // Submit a new pin
  	$scope.addPin= function () {
 		
-		$scope.pinAdd = "";
+    $scope.pinAddMessage = '';
 
-	    if(!$scope.addPinForm.title)
-	      return;
-      	
-      	// Get pin info from the form
-        var pin = {
-          "userId" : $scope.userId,
-          "title": $scope.addPinForm.title,
-          "source": $scope.addPinForm.source,
-          "like" : 0
-        };
-        console.log("!!!");
-        console.log(pin);
-        console.log("!!!");
-
-        
-        // $http.post("/api/choices", choice)
-        // .then(function successCallback(response) {
-        //     $scope.choices.push(response.data);
-        //     $scope.choiceAdd = "Added choice!";
-        //   }, function errorCallback(response) { 
-        //   	$scope.choiceAdd = "Could not add choice, try again!";
-        //   });
-        $scope.pinAdd = "Added Pin.";
-        //$scope.choiceAdd = "Could not add pin, try again.";
-
-        // Dismiss modal
-        $scope.dismiss();
-
-        // Clear form fields
-    	$scope.addPinForm.title = "";
-    	$scope.addPinForm.source = "";
+    // If no title, return
+    if(!$scope.addPinForm.title)
+      return;
+    	
+  	// Get pin info from the form
+    var pin = {
+      "userId" : $scope.userId,
+      "title": $scope.addPinForm.title,
+      "likes" : 0
     };
+
+    // Get immage from the modal preview image
+    if($scope.preview) {
+      // id="preview"
+      pin["source"] = $("#preview").attr("src");
+    }
+    else {
+      // id="preview-no-image"
+      pin["source"] =  $("#preview-no-image").attr("src");
+    }
+    
+    $http.post('/api/pins', {"pin" : pin})
+      .then(function successCallback(response) {
+          $scope.pinList.push(response.data);
+          $scope.pinAddMessage = "Added Pin.";
+        }, function errorCallback(response) {
+          $scope.pinAddMessage = "Could not add pin, try again.";
+    }).catch( function() {
+      $scope.pinAddMessage = '';
+    });    
+
+    // Dismiss modal
+    $scope.dismiss();
+
+    // Clear form fields
+    $scope.pinAdd = "";    
+    $scope.addPinForm.title = "";
+    $scope.addPinForm.source = "";
+  };
+
+  // Create Pin Modal
+  $scope.showModal = false;
+  $scope.toggleModal = function(){
+      $scope.showModal = !$scope.showModal;
+  };
 
 })
   // Modal add pin form
@@ -96,7 +139,7 @@ angular.module('workspaceApp')
             $(element).modal('hide');
         });
 
-		scope.dismiss = function() {
+		    scope.dismiss = function() {
            element.modal('hide');
         };
 

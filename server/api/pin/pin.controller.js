@@ -2,10 +2,20 @@
 
 var _ = require('lodash');
 var Pin = require('./pin.model');
+var ObjectId = require('mongoose').Schema.Types.ObjectId;
 
 // Get list of pins
 exports.index = function(req, res) {
   Pin.find(function (err, pins) {
+    if(err) { return handleError(res, err); }
+    return res.status(200).json(pins);
+  });
+};
+
+// Get list of pins by user id
+exports.indexByUserId = function(req, res) {
+  if(!req.params.userId) { return handleError(res, err); }
+  Pin.find({userId:req.params.userId}, function (err, pins) {
     if(err) { return handleError(res, err); }
     return res.status(200).json(pins);
   });
@@ -22,7 +32,7 @@ exports.show = function(req, res) {
 
 // Creates a new pin in the DB.
 exports.create = function(req, res) {
-  Pin.create(req.body, function(err, pin) {
+  Pin.create(req.body.pin, function(err, pin) {
     if(err) { return handleError(res, err); }
     return res.status(201).json(pin);
   });

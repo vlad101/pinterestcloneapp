@@ -4,22 +4,27 @@
 <div class="container" ng-show="userId">
   <div class="row">
     <div class="page-header"><h1>My Board</h1></div>
-    <div class="col-lg-12">
-      <br>
-      <!-- If user is logged in, display user's name -->
-      <div ng-show="userId">User ID: {{ userId }}</div>
-    </div>
-  </div>
-  <br>
+
   <div class="row">
 	  <button ng-click="toggleModal()" class="btn btn-default">Open modal</button>
-	  <p class="text-danger"><br>{{ pinAdd }}</p>
-	  <!-- Add a pin form -->
+	  <p class="text-danger"><br>{{ pinAddMessage }}</p>
+	  <br>
+		<div id="pin-list" class="js-masonry" ng-repeat="pin in pinList" >
+			<div class="pin alert alert-success">{{ pin.title }}
+				<img id="pin-image" height="100px" weight="180px" src="{{ pin.source }}" alt="Image Preview" />
+			</div>
+		</div>
+
+  </div>
+
+  <div class="row">
+	  <!-- Add a pin form modal -->
 	  <modal title="Login form" visible="showModal">
 	    <form role="form" ng-submit="addPin()">
 	      <div class="form-group">
 	        <label for="title">Image Preview</label><br>
-	        <img id="preview" height="300px" src="{{ preview }}" alt="Image" style="border:1px solid black; min-width: 100%; width: auto;" />
+	        	<img ng-show="preview" id="preview" height="300px" src="{{ preview }}" alt="Image Preview" />
+	        	<img ng-show="!preview" id="preview-no-image" height="300px" src="assets/images/no-image.jpg" alt="Image Preview" />
 	      </div>
 	      <div class="form-group">
 	        <label for="title">Title</label>
@@ -27,10 +32,9 @@
 	      </div>
 	      <div class="form-group">
 	        <label for="source">Source</label>
-	        <input type="source" class="form-control" id="source" placeholder="Enter Source (http image link)" ng-model="addPinForm.source" name="source" required/>
+	        <input type="source" class="form-control" id="source" placeholder="Enter Source (http image link)" ng-model="addPinForm.source" name="source" />
 	      </div>
 	      <div class="btn-group">
-		      <!-- <button id="addPinSubmit" type="submit" class="btn btn-primary">Add Pin</button> -->
 		      <input type="submit" class="btn btn-primary" value="Add Pin">
 		      <input type="submit" class="btn btn-default" value="Cancel" data-dismiss="modal">
 		  </div>

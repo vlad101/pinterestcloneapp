@@ -12,7 +12,30 @@
   </div>
   <br>
   <div class="row">
-  INSERT MODAL HERE
+	  <button ng-click="toggleModal()" class="btn btn-default">Open modal</button>
+	  <p class="text-danger"><br>{{ pinAdd }}</p>
+	  <!-- Add a pin form -->
+	  <modal title="Login form" visible="showModal">
+	    <form role="form" ng-submit="addPin()">
+	      <div class="form-group">
+	        <label for="title">Image Preview</label><br>
+	        <img id="preview" height="300px" src="{{ preview }}" alt="Image" style="border:1px solid black; min-width: 100%; width: auto;" />
+	      </div>
+	      <div class="form-group">
+	        <label for="title">Title</label>
+	        <input type="text" class="form-control" id="text" placeholder="Enter title" ng-model="addPinForm.title" name="title" required/>
+	      </div>
+	      <div class="form-group">
+	        <label for="source">Source</label>
+	        <input type="source" class="form-control" id="source" placeholder="Enter Source (http image link)" ng-model="addPinForm.source" name="source" required/>
+	      </div>
+	      <div class="btn-group">
+		      <!-- <button id="addPinSubmit" type="submit" class="btn btn-primary">Add Pin</button> -->
+		      <input type="submit" class="btn btn-primary" value="Add Pin">
+		      <input type="submit" class="btn btn-default" value="Cancel" data-dismiss="modal">
+		  </div>
+	    </form>
+	  </modal>
   </div>
 </div>
 

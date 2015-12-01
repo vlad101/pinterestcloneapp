@@ -37,3 +37,7 @@
     cursor: pointer;
     cursor: hand;
 }
+
+.fa-power-off {
+    cursor: pointer;
+}

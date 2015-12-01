@@ -3,6 +3,8 @@
 angular.module('workspaceApp')
   .controller('MyBoardCtrl', function ($scope, $http) {
 
+    $scope.pinAddMessage = "Add A New Pin.";
+
     // Get user from session
     $http.get('/api/sessions/user')
       .then(function successCallback(userInfo) {
@@ -85,6 +87,7 @@ angular.module('workspaceApp')
       pin["source"] =  $("#preview-no-image").attr("src");
     }
     
+    // Add pin
     $http.post('/api/pins', {"pin" : pin})
       .then(function successCallback(response) {
           $scope.pinList.push(response.data);
@@ -96,7 +99,7 @@ angular.module('workspaceApp')
     });    
 
     // Dismiss modal
-    $scope.dismiss();
+    $scope.showModal = !$scope.showModal;
 
     // Clear form fields
     $scope.pinAdd = "";    
@@ -104,7 +107,17 @@ angular.module('workspaceApp')
     $scope.addPinForm.source = "";
   };
 
-  // Create Pin Modal
+  // Like pin
+  $scope.likePin = function (pinId) {
+    console.log("change Like: " + pinId);
+  };
+
+  // Delete pin
+  $scope.deletePin = function (pinId) {
+    console.log("delete pin: " + pinId);
+  };
+
+  // Show Pin Modal
   $scope.showModal = false;
   $scope.toggleModal = function(){
       $scope.showModal = !$scope.showModal;
@@ -128,7 +141,7 @@ angular.module('workspaceApp')
       restrict: 'E',
       transclude: true,
       replace:true,
-      scope:false,
+      scope:true,
       link: function (scope, element, attrs) {
         scope.title = "Add a New Pin"; //attrs.title;
 

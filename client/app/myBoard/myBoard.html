@@ -6,15 +6,23 @@
     <div class="page-header"><h1>My Board</h1></div>
 
   <div class="row">
-	  <button ng-click="toggleModal()" class="btn btn-default">Open modal</button>
-	  <p class="text-danger"><br>{{ pinAddMessage }}</p>
-	  <br>
-		<div id="pin-list" class="js-masonry" ng-repeat="pin in pinList" >
-			<div class="pin alert alert-success">{{ pin.title }}
-				<img id="pin-image" height="100px" weight="180px" src="{{ pin.source }}" alt="Image Preview" />
+      	<div class="col-lg-12">
+	  	  	<div id="pin-list" class="js-masonry" class="pin alert alert-success">
+	  	  		<!-- Add a new pin -->
+	  	  		<div id="pin-add" class="alert alert-danger">
+		  	  		<button id="pin-add-button" ng-click="toggleModal()" class="btn btn-primary">Add A Pin</button>
+		  	  		<p class="text-danger"><br>{{ pinAddMessage }}</p>
+		  	  	</div>
+		  	  	<!-- User pin list -->
+		  	  	<div ng-repeat="pin in pinList" >
+					<div class="pin alert alert-success">{{ pin.title }}
+						<img id="pin-image" height="100px" weight="180px" src="{{ pin.source }}" alt="Image Preview" />
+						<!-- Likes counter -->
+						<div id="like-box"><a ng-click="likePin(pin._id)"><i class="fa fa-heart fa-2x"></i><span class="likes-counter"></a>{{ pin.likes }}</span><a ng-click="deletePin(pin._id)"<i class="fa fa-trash fa-2x"></i></a></div>
+					</div>
+				</div>
 			</div>
 		</div>
-
   </div>
 
   <div class="row">

@@ -16,25 +16,21 @@ angular.module('workspaceApp')
               .then(function successCallback(pinList) {
                   $scope.pinList = pinList.data;
 
-                  for(var i in $scope.pinList) {
-                  	var userId = $scope.pinList[i].userId;
-                  	console.log(userId + ') ' + JSON.stringify($scope.pinList[i]));
-				    $http.get('/api/users/' + userId)
+                  // For each, pin, get user id
+                  angular.forEach($scope.pinList, function(pin){
+                  	// For each user id, get twitter username
+				    $http.get('/api/users/' + pin.userId)
 				      .then(function successCallback(response) {
-				      			console.log(userId + ') ' + JSON.stringify($scope.pinList[i]));
-					      	// 	if(response.data.hasOwnProperty('twitter')) {
-					      	// 		console.log("BEFORE " + JSON.stringify($scope.pinList[i]));
-					       //      	$scope.pinList[i].userName = response.data.twitter.username;
-					       //      	console.log("AFTER " + JSON.stringify($scope.pinList[i]));
-				      		// }
+				      		// Add twitter username fo the pin
+					      	if(response.data.hasOwnProperty('twitter')) {
+					           	pin.userName = response.data.twitter.username;
+				      		}
 				        }, function errorCallback(response) {
 				          $scope.pinMessage = "Something went wrong, try again.";
 				    }).catch( function() {
 				      $scope.pinMessage = '';
 				    });
-                  }
-
-                  console.log(pinList);
+                  });
 
                 }, function errorCallback(pinList) {
                   $scope.pinListMessage = 'Something went wrong, try again.';

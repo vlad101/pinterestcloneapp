@@ -15,9 +15,9 @@
 						<!-- Likes counter box for logged in user -->
 						<!-- If user does not yet like pin, show red like heart  -->
 						<!-- If user already likes pin, show black dislike heart  -->
-						<div ng-show="userId" id="like-box"><a ng-show="pin.userLikes.indexOf(userId) == -1" ng-click="likePin(pin._id)"><i class="like fa fa-heart fa-2x"></i><span class="likes-counter"></a><a ng-show="pin.userLikes.indexOf(userId) != -1" ng-click="dislikePin(pin._id)"><i class="dislike fa fa-heart fa-2x"></i><span class="likes-counter"></a>{{ pin.userLikes.length }}</span><br>By: {{ pin.userName }}</div>
+						<div ng-show="userId" id="like-box"><a ng-show="pin.userLikes.indexOf(userId) == -1" ng-click="likePin(pin._id)"><i class="like fa fa-heart fa-2x"></i><span class="likes-counter"></a><a ng-show="pin.userLikes.indexOf(userId) != -1" ng-click="dislikePin(pin._id)"><i class="dislike fa fa-heart fa-2x"></i><span class="likes-counter"></a>{{ pin.userLikes.length }}</span><br>By: <a href="/users/{{pin.userId}}"><span id="username" ng-show="pin.userId == userId">you</span><span id="username" ng-show="pin.userId != userId">{{ pin.userName }}</span></a></div>
 						<!-- Likes counter box for not logged in user -->
-						<div ng-show="!userId" id="like-box"><i class="like fa fa-heart fa-2x"></i><span class="likes-counter">{{ pin.userLikes.length }}</span><br>By: {{ pin.userName }}</div>
+						<div ng-show="!userId" id="like-box"><i class="like fa fa-heart fa-2x"></i><span class="likes-counter">{{ pin.userLikes.length }}</span><br>By: <a href="/users/{{pin.userId}}">{{ pin.userName }}</a></div>
 					</div>
 				</div>
 			</div>

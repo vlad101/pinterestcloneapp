@@ -32,7 +32,7 @@
 }
 
 #pin-add {
-	height: 150px;
+	in-height: 150px;
 	width: 200px;
 	border: 1px solid black;
 	text-align:center;

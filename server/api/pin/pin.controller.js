@@ -76,11 +76,8 @@ exports.dislike = function(req, res) {
     // Find a user in user likes by user id
     for(var i = 0; i < pin.userLikes.length; i++){
       // Remove user from pin userLikes
-      if(pin.userLikes[i] == req.body.userId){
-        console.log("!!!! before " + pin.userLikes);
+      if(pin.userLikes[i] == req.body.userId)
         pin.userLikes.splice(i, 1);
-        console.log("!!!! after " + pin.userLikes);
-      }
     }
     pin.save(function (err) {
       if (err) { return handleError(res, err); }

@@ -3,7 +3,7 @@
 angular.module('workspaceApp')
   .controller('RecentPinsCtrl', function ($scope, $http) {
 
-    $scope.pinMessage = "Add A New Pin.";
+    $scope.pinMessage = "";
 
     // Get user from session
     $http.get('/api/sessions/user')
@@ -14,22 +14,24 @@ angular.module('workspaceApp')
 	          // Get all pins
             $http.get('/api/pins')
               .then(function successCallback(pinList) {
-                  $scope.pinList = pinList.data;
+
+                  // Display only 10 recent pins
+                  $scope.pinList = pinList.data.slice(0, 10);;
 
                   // For each, pin, get user id
                   angular.forEach($scope.pinList, function(pin){
                   	// For each user id, get twitter username
-				    $http.get('/api/users/' + pin.userId)
-				      .then(function successCallback(response) {
-				      		// Add twitter username fo the pin
-					      	if(response.data.hasOwnProperty('twitter')) {
-					           	pin.userName = response.data.twitter.username;
-				      		}
-				        }, function errorCallback(response) {
-				          $scope.pinMessage = "Something went wrong, try again.";
-				    }).catch( function() {
-				      $scope.pinMessage = '';
-				    });
+        				    $http.get('/api/users/' + pin.userId)
+        				      .then(function successCallback(response) {
+        				      		// Add twitter username fo the pin
+        					      	if(response.data.hasOwnProperty('twitter')) {
+        					           	pin.userName = response.data.twitter.username;
+        				      		}
+        				        }, function errorCallback(response) {
+        				          $scope.pinMessage = "Something went wrong, try again.";
+        				    }).catch( function() {
+        				      $scope.pinMessage = '';
+        				    });
                   });
 
                 }, function errorCallback(pinList) {

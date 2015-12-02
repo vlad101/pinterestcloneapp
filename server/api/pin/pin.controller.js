@@ -52,6 +52,43 @@ exports.update = function(req, res) {
   });
 };
 
+// Updates an existing pin userLike list in the DB.
+exports.like = function(req, res) {
+  // Find pin by pin id
+  Pin.findById(req.params.id, function (err, pin) {
+    if (err) { return handleError(res, err); }
+    if(!pin) { return res.status(404).send('Not Found'); }
+    // Push user to pin userLikes
+    pin.userLikes.push(req.body.userId);
+    pin.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.status(200).json(pin);
+    });
+  });
+};
+
+// Updates an existing pin userLike list in the DB.
+exports.dislike = function(req, res) {
+  // Find pin by pin id
+  Pin.findById(req.params.id, function (err, pin) {
+    if (err) { return handleError(res, err); }
+    if(!pin) { return res.status(404).send('Not Found'); }
+    // Find a user in user likes by user id
+    for(var i = 0; i < pin.userLikes.length; i++){
+      // Remove user from pin userLikes
+      if(pin.userLikes[i] == req.body.userId){
+        console.log("!!!! before " + pin.userLikes);
+        pin.userLikes.splice(i, 1);
+        console.log("!!!! after " + pin.userLikes);
+      }
+    }
+    pin.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.status(200).json(pin);
+    });
+  });
+};
+
 // Deletes a pin from the DB.
 exports.destroy = function(req, res) {
   Pin.findById(req.params.id, function (err, pin) {

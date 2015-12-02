@@ -52,8 +52,14 @@
 	word-wrap: break-word;      /* IE */
 }
 
-.fa-heart {
+.like.fa-heart {
      color: #ae2525;
+     font: 50px;
+     margin-left: 20px;
+}
+
+.dislike.fa-heart {
+     color: blue;
      font: 50px;
      margin-left: 20px;
 }

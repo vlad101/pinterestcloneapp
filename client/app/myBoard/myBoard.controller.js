@@ -3,7 +3,7 @@
 angular.module('workspaceApp')
   .controller('MyBoardCtrl', function ($scope, $http) {
 
-    $scope.pinAddMessage = "Add A New Pin.";
+    $scope.pinMessage = "Add A New Pin.";
 
     // Get user from session
     $http.get('/api/sessions/user')
@@ -28,7 +28,6 @@ angular.module('workspaceApp')
     });
 
     // Load pin list with Masonryjs
-    // Pure JS
     (function () {
       var container = document.querySelector('#pin-list');
       var msnry = new Masonry(container, {
@@ -64,7 +63,7 @@ angular.module('workspaceApp')
   // Submit a new pin
  	$scope.addPin= function () {
 		
-    $scope.pinAddMessage = '';
+    $scope.pinMessage = '';
 
     // If no title, return
     if(!$scope.addPinForm.title)
@@ -74,7 +73,7 @@ angular.module('workspaceApp')
     var pin = {
       "userId" : $scope.userId,
       "title": $scope.addPinForm.title,
-      "likes" : 0
+      "userLikes" : []
     };
 
     // Get immage from the modal preview image
@@ -91,11 +90,11 @@ angular.module('workspaceApp')
     $http.post('/api/pins', {"pin" : pin})
       .then(function successCallback(response) {
           $scope.pinList.push(response.data);
-          $scope.pinAddMessage = "Added Pin.";
+          $scope.pinMessage = "Added Pin.";
         }, function errorCallback(response) {
-          $scope.pinAddMessage = "Could not add pin, try again.";
+          $scope.pinMessage = "Could not add pin, try again.";
     }).catch( function() {
-      $scope.pinAddMessage = '';
+      $scope.pinMessage = '';
     });    
 
     // Dismiss modal
@@ -107,14 +106,64 @@ angular.module('workspaceApp')
     $scope.addPinForm.source = "";
   };
 
-  // Like pin
+  // If user like does not exist, prompt like
+  // Pin creator can like own pin
   $scope.likePin = function (pinId) {
-    console.log("change Like: " + pinId);
+    $http.put('/api/pins/like/' + pinId , {userId: $scope.userId})
+      .then(function successCallback(response) {
+            // Find pin in a pin list by pin id
+		  	for(var i in $scope.pinList) {
+				if($scope.pinList[i]._id == pinId){
+					// Add a user to a list of users who likes that pin
+		  			$scope.pinList[i].userLikes.push($scope.userId);
+				}
+		  	}
+        }, function errorCallback(response) {
+          $scope.pinMessage = "Something went wrong, try again.";
+    }).catch( function() {
+      $scope.pinMessage = '';
+    });
+  };
+
+  // If user like exists, prompt dislike
+  // Pin creator can dislike own pin
+  $scope.dislikePin = function (pinId) {
+    $http.put('/api/pins/dislike/' + pinId, {userId: $scope.userId})
+      .then(function successCallback(response) {
+            // Find pin in a pin list by pin id
+		  	for(var i in $scope.pinList) {
+				if($scope.pinList[i]._id == pinId){
+		  			// Find a user in pin user likes by user id
+					for(var j in $scope.pinList[i].userLikes) {
+						if($scope.pinList[i].userLikes[j] == $scope.userId) {
+							// Remove a user from a list of users who likes that pin
+							$scope.pinList[i].userLikes.splice(j, 1);
+						}
+					}
+				}
+		  	}
+        }, function errorCallback(response) {
+          $scope.pinMessage = "Something went wrong, try again.";
+    }).catch( function() {
+      $scope.pinMessage = '';
+    });
   };
 
   // Delete pin
   $scope.deletePin = function (pinId) {
-    console.log("delete pin: " + pinId);
+    $http.delete('/api/pins/' + pinId)
+      .then(function successCallback(response) {
+            for(var i in $scope.pinList) {
+				if($scope.pinList[i]._id == pinId) {
+					$scope.pinList.splice(i, 1);
+          			$scope.pinMessage = "Deleted Pin.";
+          		}
+          	}
+        }, function errorCallback(response) {
+          $scope.pinMessage = "Could not delete pin, try again.";
+    }).catch( function() {
+      $scope.pinMessage = '';
+    });  
   };
 
   // Show Pin Modal

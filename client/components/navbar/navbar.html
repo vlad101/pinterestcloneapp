@@ -16,7 +16,10 @@
             <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
         <li ng-show="userName" ng-class="{active: isActive('/myBoard')}">
-            <a ng-href="myBoard">My Board</a>
+            <a ng-href="/myBoard">My Board</a>
+        </li>
+        <li ng-class="{active: isActive('/recentPins')}">
+            <a ng-href="/recentPins">Recent Pins</a>
         </li>
       </ul>
 

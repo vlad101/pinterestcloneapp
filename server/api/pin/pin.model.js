@@ -12,9 +12,12 @@ var PinSchema = new Schema({
   source: {
             type: String
   },
-  likes: {
-            type: Number,
-            default: 0,
+  userLikes: {
+            type: Array
+  },
+  created:  { 
+            type: Date,
+            default: Date.now,
             required: true
   },
   active: Boolean

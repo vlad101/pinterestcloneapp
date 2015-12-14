@@ -33,11 +33,57 @@
     margin-left: 15px;
 }
 
-.navbar-button {
+.navbar-button, .fa-power-off, .fa-sign-in {
     cursor: pointer;
     cursor: hand;
 }
 
-.fa-power-off {
+#like-box {
+    height: 10px;
+    margin-bottom: 15px;
+}
+
+.like.fa-heart {
+     color: #ae2525;
+     font: 50px;
+     margin-left: 20px;
+}
+
+.dislike.fa-heart {
+     color: blue;
+     font: 50px;
+     margin-left: 20px;
+}
+
+
+#like-box a:hover {
+    text-decoration: none;
     cursor: pointer;
+    cursor: hand;
+}
+
+.pin {
+    width: 200px;
+    min-height: 270px;
+    float: left;
+    margin: 3px;
+    border: 1px solid black;
+    white-space: normal;      /* CSS3 */  
+    white-space: normal;      /* CSS3 */   
+    white-space: -moz-normal; /* Firefox */    
+    white-space: -normal;     /* Opera <7 */   
+    white-space: -o-normal;   /* Opera 7 */    
+    word-wrap: break-word;      /* IE */
+}
+
+#pin-image {
+    border:1px solid black; 
+    display:block;
+    margin:auto;
+    min-width: 160px;
+    margin-top: 15px;
+    width: auto;
+    overflow:none;
+    border-radius: 5px;
+    max-width: 100%;
 }

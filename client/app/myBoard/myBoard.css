@@ -12,18 +12,6 @@
 	overflow:none;
 }
 
-#pin-image {
-	border:1px solid black; 
-	display:block;
-    margin:auto;
-    min-width: 160px;
-    margin-top: 15px;
-	width: auto;
-	overflow:none;
-	border-radius: 5px;
-	max-width: 100%;
-}
-
 #pin-add-button {
 	border: 1px solid black;
 	margin-left: auto;
@@ -39,50 +27,8 @@
 	margin-left: 4px;
 }
 
-.pin {
-    width: 200px;
-    min-height: 100px;
-    float: left;
-    margin: 3px;
-    border: 1px solid black;
-	white-space: pre-wrap;      /* CSS3 */   
-	white-space: -moz-pre-wrap; /* Firefox */    
-	white-space: -pre-wrap;     /* Opera <7 */   
-	white-space: -o-pre-wrap;   /* Opera 7 */    
-	word-wrap: break-word;      /* IE */
-}
-
-.like.fa-heart {
-     color: #ae2525;
-     font: 50px;
-     margin-left: 20px;
-}
-
-.dislike.fa-heart {
-     color: blue;
-     font: 50px;
-     margin-left: 20px;
-}
-
 .fa-trash {
      color: black;
      font: 50px;
      margin-left: 60px;
-}
-
-
-.likes-counter {
-	margin-left: 5px;
-	font-size: 20px;
-}
-
-#like-box {
-	height: 10px;
-	margin-bottom: 15px;
-}
-
-#like-box a {
-	text-decoration: none;
-	cursor: pointer;
-	cursor: hand;
 }

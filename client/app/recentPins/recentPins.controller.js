@@ -16,7 +16,8 @@ angular.module('workspaceApp')
               .then(function successCallback(pinList) {
 
                   // Display only 10 recent pins
-                  $scope.pinList = pinList.data.slice(0, 10);;
+                  //$scope.pinList = pinList.data.slice(0, 10);
+                  $scope.pinList = pinList.data;
 
                   // For each, pin, get user id
                   angular.forEach($scope.pinList, function(pin){

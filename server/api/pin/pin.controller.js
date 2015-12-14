@@ -6,9 +6,9 @@ var ObjectId = require('mongoose').Schema.Types.ObjectId;
 
 // Get list of pins
 exports.index = function(req, res) {
-  Pin.find(function (err, pins) {
+  Pin.find(function(err, pins) {
     if(err) { return handleError(res, err); }
-    return res.status(200).json(pins);
+    return res.status(200).json(pins.sort({'created': -1}));
   });
 };
 

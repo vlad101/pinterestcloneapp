@@ -55,7 +55,7 @@ angular.module('workspaceApp')
       // If image is invalid, replace it with the broken image icon
       $("#preview").error(function () {
          $(this).unbind("error")
-         .attr("src", "assets/images/broken-image.jpg")
+         .attr("src", "https://goo.gl/gtFpLz")
          .css( "min-width", "100%" );
       });
   }, true);
@@ -91,14 +91,12 @@ angular.module('workspaceApp')
       .then(function successCallback(response) {
           $scope.pinList.push(response.data);
           $scope.pinMessage = "Added Pin.";
+          $("#addPinModal").modal('hide');
         }, function errorCallback(response) {
           $scope.pinMessage = "Could not add pin, try again.";
     }).catch( function() {
       $scope.pinMessage = '';
-    });    
-
-    // Dismiss modal
-    $scope.showModal = !$scope.showModal;
+    });
 
     // Clear form fields
     $scope.pinAdd = "";    
@@ -166,56 +164,4 @@ angular.module('workspaceApp')
     });  
   };
 
-  // Show Pin Modal
-  $scope.showModal = false;
-  $scope.toggleModal = function(){
-      $scope.showModal = !$scope.showModal;
-  };
-
-})
-  // Modal add pin form
-  .directive('modal', function () {
-    return {
-      template: '<div id="addPin" class="modal fade">' + 
-          '<div id="addPinForm" class="modal-dialog">' + 
-            '<div class="modal-content">' + 
-              '<div class="modal-header">' + 
-                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
-                '<h4 class="modal-title">{{ title }}</h4>' + 
-              '</div>' + 
-              '<div class="modal-body" ng-transclude></div>' + 
-            '</div>' + 
-          '</div>' + 
-        '</div>',
-      restrict: 'E',
-      transclude: true,
-      replace:true,
-      scope:true,
-      link: function (scope, element, attrs) {
-        scope.title = "Add a New Pin"; //attrs.title;
-
-        scope.$watch(attrs.visible, function(value){
-          if(value == true)
-            $(element).modal('show');
-          else
-            $(element).modal('hide');
-        });
-
-		    scope.dismiss = function() {
-           element.modal('hide');
-        };
-
-        $(element).on('shown.bs.modal', function(){
-          scope.$apply(function(){
-            scope.$parent[attrs.visible] = true;
-          });
-        });
-
-        $(element).on('hidden.bs.modal', function(){
-          scope.$apply(function(){
-            scope.$parent[attrs.visible] = false;
-          });
-        });
-      }
-    };
-  });
+});

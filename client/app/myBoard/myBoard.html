@@ -2,7 +2,6 @@
 
 <!-- Authenticated user view -->
 <div class="container" ng-show="userId">
-  <div class="row">
     <div class="page-header"><h1>My Board</h1></div>
 
   <div class="row">
@@ -10,7 +9,7 @@
 	  	  	<div id="pin-list" class="js-masonry" class="pin alert alert-success">
 	  	  		<!-- Add a new pin -->
 	  	  		<div id="pin-add" class="alert alert-danger">
-		  	  		<button id="pin-add-button" ng-click="toggleModal()" class="btn btn-primary">Add A Pin</button>
+		  	  		<button id="pin-add-button" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addPinModal">Add Pin</button>
 		  	  		<p class="text-danger"><br>{{ pinMessage }}</p>
 		  	  	</div>
 		  	  	<!-- User pin list -->
@@ -20,7 +19,19 @@
 						<!-- Likes counter -->
 						<!-- If user does not yet like pin, show red like heart  -->
 						<!-- If user already likes pin, show black dislike heart  -->
-						<div id="like-box"><a ng-show="pin.userLikes.indexOf(userId) == -1" ng-click="likePin(pin._id)"><i class="like fa fa-heart fa-2x"></i><span class="likes-counter"></a><a ng-show="pin.userLikes.indexOf(userId) != -1" ng-click="dislikePin(pin._id)"><i class="dislike fa fa-heart fa-2x"></i><span class="likes-counter"></a>{{ pin.userLikes.length }}</span><a ng-click="deletePin(pin._id)"<i class="fa fa-trash fa-2x"></i></a></div>
+						<div id="like-box">
+							<span class="likes-counter">
+								<a ng-show="pin.userLikes.indexOf(userId) == -1" ng-click="likePin(pin._id)">
+									<i class="like fa fa-heart fa-2x"></i>{{ pin.userLikes.length }}
+								</a>
+								<a ng-show="pin.userLikes.indexOf(userId) != -1" ng-click="dislikePin(pin._id)">
+									<i class="dislike fa fa-heart fa-2x"></i>{{ pin.userLikes.length }}
+								</a>
+								<a ng-click="deletePin(pin._id)">
+									<i class="fa fa-trash fa-2x"></i>
+								</a>
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -29,27 +40,37 @@
 
   <div class="row">
 	  <!-- Add a pin form modal -->
-	  <modal title="Login form" visible="showModal">
-	    <form role="form" ng-submit="addPin()">
-	      <div class="form-group">
-	        <label for="title">Image Preview</label><br>
-	        	<img ng-show="preview" id="preview" height="300px" src="{{ preview }}" alt="Image Preview" />
-	        	<img ng-show="!preview" id="preview-no-image" height="300px" src="assets/images/no-image.jpg" alt="Image Preview" />
-	      </div>
-	      <div class="form-group">
-	        <label for="title">Title</label>
-	        <input type="text" class="form-control" id="text" placeholder="Enter title" ng-model="addPinForm.title" name="title" required/>
-	      </div>
-	      <div class="form-group">
-	        <label for="source">Source</label>
-	        <input type="source" class="form-control" id="source" placeholder="Enter Source (http image link)" ng-model="addPinForm.source" name="source" />
-	      </div>
-	      <div class="btn-group">
-		      <input type="submit" class="btn btn-primary" value="Add Pin">
-		      <input type="submit" class="btn btn-default" value="Cancel" data-dismiss="modal">
-		  </div>
-	    </form>
-	  </modal>
+	  <div id="addPinModal" class="modal fade">
+          <div id="addPinForm" class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Pin</h4>
+              </div>
+              <div class="modal-body">
+			    <form role="form" ng-submit="addPin()">
+			      <div class="form-group">
+			        <label for="title">Image Preview</label><br>
+			        	<img ng-show="preview" id="preview" height="300px" src="{{ preview }}" alt="Image Preview" />
+			        	<img ng-show="!preview" id="preview-no-image" height="300px" src="https://goo.gl/vwwZ5v" alt="Image Preview" />
+			      </div>
+			      <div class="form-group">
+			        <label for="title">Title</label>
+			        <input type="text" class="form-control" id="text" placeholder="Enter title" ng-model="addPinForm.title" name="title" required/>
+			      </div>
+			      <div class="form-group">
+			        <label for="source">Source</label>
+			        <input type="source" class="form-control" id="source" placeholder="Enter Source (http image link)" ng-model="addPinForm.source" name="source" />
+			      </div>
+			      <div class="btn-group">
+				      <input type="submit" class="btn btn-primary" value="Add Pin">
+				      <input type="submit" class="btn btn-default" value="Cancel" data-dismiss="modal">
+				  </div>
+			    </form>
+              </div>
+            </div>
+          </div>
+        </div>
   </div>
 </div>
 

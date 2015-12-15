@@ -3,7 +3,7 @@
 angular.module('workspaceApp')
   .controller('MyBoardCtrl', function ($scope, $http) {
 
-    $scope.pinMessage = "Add A New Pin.";
+    $scope.pinMessage = "Add A New Ballroom Pin.";
 
     // Get user from session
     $http.get('/api/sessions/user')

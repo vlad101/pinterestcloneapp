@@ -8,9 +8,10 @@
       	<div class="col-lg-12">
 	  	  	<div id="pin-list" class="js-masonry" class="pin alert alert-success">
 		  	  	<!-- User pin list -->
+		  	  	<h4 ng-show="pinList.length == 0">-- No pins added yet --</h4>
 		  	  	<div ng-repeat="pin in pinList" >
 					<div class="pin alert alert-info">{{ pin.title }}
-						<img id="pin-image" height="100px" weight="180px" src="{{ pin.source }}" alt="Image Preview" />
+						<img id="pin-image" height="100px" weight="180px" src="{{ pin.source }}" alt="Image Preview" /><br>
 						<!-- Likes counter box for logged in user -->
 						<!-- If user does not yet like pin, show red like heart  -->
 						<!-- If user already likes pin, show black dislike heart  -->
